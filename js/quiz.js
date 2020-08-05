@@ -30,3 +30,52 @@ let questions = [
         correct : "C";
     },
 ];
+
+let lastQuestionIndex = question.length - 1;
+let runningQuestionIndex = 0;
+
+function renderQuestions(){
+    let q = questions[runningQuestionIndex];
+    qImg.innerHTML = "<img.src=" + q.imgSrc + ">";
+    question.innerHTML = "<p>" + q.question+ "</p>";
+    choiceA.innerHTML = q.choiceA;
+    choiceB.innerHTML = q.choiceB;
+    choiceC.innerHTML = q.choiceC;
+}
+//progress render
+function progressRender(){
+    for(let qIndex = 0; qIndex <= lastQuestionIndex; qIndex++){
+        progressRender.innerHTML += "<div class='prog' id=" + qIndex + "></div>"; 
+    }
+}
+
+function answerIsCorrect(){
+    document.getElementById(runningQuestionIndex).style.backgroundColor = "green";
+}
+
+function answerIsWrong(){
+    document.getElementById(runningQuestionIndex).style.backgroundColor = "red";
+}
+
+//Counter Render
+const questionTime = 10;
+const gaugeWidth = 150;
+let count = 0;
+const gaugeProgressUnit = gaugeWidth/questionTime;
+function counterRender(){
+    if( count <= questionTime){
+        counter.innerHTML = count;
+        timeGauge.style.width = gaugeProgressUnit * count + "px";
+        count++;
+
+    }else{
+        count = 0;
+        answerIsWrong();
+        if(runningQuestionIndex < lastQuestionIndex){
+            runningQuestionIndex++;
+            questionRender();
+        } else{ clearInterval(TIMER);
+        }
+    }
+
+}
